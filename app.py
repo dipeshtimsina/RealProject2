@@ -68,9 +68,13 @@ def get_all_air( json_str = False ):
 def home():
     return render_template("index.html")
 
-@app.route("/api/data")
-def data():
-    return get_all_data(), get_all_air()
+@app.route("/api/GHGdata")
+def ghgdata():
+    return get_all_data()
+
+@app.route("/api/AIRdata")
+def airdata():
+    return get_all_air()
 
 if __name__ == "__main__":
     app.run(debug=True)

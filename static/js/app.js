@@ -46,12 +46,12 @@ function countyTotals(data_year) {
   
   function buildCountySummary() {}
   
-  function buildCountyAnalysis() {
+  function buildGHGAnalysis() {
     /* data route */
-    const url = "/api/data";
-    d3.json(url).then(function (countydata) {
+    const url = "/api/GHGdata";
+    d3.json(url).then(function (ghgcountydata) {
 
-      console.log(countydata);
+      console.log(ghgcountydata);
   
       // data_2019 = countydata[2019][0];
       // data_2018 = countydata[2018][0];
@@ -65,8 +65,38 @@ function countyTotals(data_year) {
       // data_2010 = countydata[2010][0];
       // countyTotals(data_2018);
 
+    }).catch(e => {
+
+      console.log(e);
     });
   }
+
+  function buildAirAnalysis() {
+    /* data route */
+    const url = "/api/AIRdata";
+    d3.json(url).then(function (airdata) {
+
+      console.log(airdata);
+  
+      // data_2019 = countydata[2019][0];
+      // data_2018 = countydata[2018][0];
+      // data_2017 = countydata[2017][0];
+      // data_2016 = countydata[2016][0];
+      // data_2015 = countydata[2015][0];
+      // data_2014 = countydata[2014][0];
+      // data_2013 = countydata[2013][0];
+      // data_2012 = countydata[2012][0];
+      // data_2011 = countydata[2011][0];
+      // data_2010 = countydata[2010][0];
+      // countyTotals(data_2018);
+
+    }).catch(e => {
+
+      console.log(e);
+    });
+  }
+  
   console.log("app.js is accessed.");
-  buildCountyAnalysis();
+  buildGHGAnalysis();
+  buildAirAnalysis();
   
