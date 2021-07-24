@@ -12,8 +12,8 @@ function countyTotals(data_year) {
     all_county_CO2_vals.push(object["GHG QUANTITY (METRIC TONS CO2e)"]);
   });
 
-  // console.log(all_county_names);
-  // console.log(all_county_CO2_vals);
+  console.log(all_county_names);
+  console.log(all_county_CO2_vals);
 
   // Reference: https://stackoverflow.com/questions/35355920/how-can-i-check-that-a-string-does-not-include-the-text-of-another-string/35355946
   all_county_names.forEach((county) => {
@@ -58,65 +58,6 @@ function countyTotals(data_year) {
   return county_totals;
 }
 
-function parentTotals(data_year) {
-  parent_totals = { parenttotals: [] };
-  all_parent_names = [];
-  all_parent_CO2_vals = [];
-  unique_parents = [];
-  unique_values = [];
-  emissions_total = 0;
-
-  Object.entries(data_year).forEach(([key, object]) => {
-    // console.log(`${key}: ${object['COUNTY NAME']}`);
-    all_parent_names.push(object["PARENT COMPANIES"]);
-    all_parent_CO2_vals.push(object["GHG QUANTITY (METRIC TONS CO2e)"]);
-  });
-
-  // console.log(all_county_names);
-  // console.log(all_county_CO2_vals);
-
-  // Reference: https://stackoverflow.com/questions/35355920/how-can-i-check-that-a-string-does-not-include-the-text-of-another-string/35355946
-  all_parent_names.forEach((parent) => {
-    if (!unique_parents.includes(parent)) {
-      unique_parents.push(parent);
-    }
-  });
-
-  unique_parents.sort();
-  // console.log(all_county_names);
-  // console.log(all_county_CO2_vals);
-
-  j = 0;
-  unique_parents.forEach((parent) => {
-    // console.log(`Iteration for ${county}`);
-    i = 0;
-    emissions_total = 0;
-
-    all_parent_names.forEach((currentparent) => {
-      // console.log(`Current name is: ${currentname}`);
-      if (currentparent === parent) {
-        i = all_parent_names.indexOf(parent, i);
-        // console.log(`Name match at ${county} and ${currentname}`);
-        // console.log(`Index of current ${currentname} is ${i}`);
-        emissions_total = emissions_total + all_parent_CO2_vals[i];
-        i = i + 1;
-      }
-    });
-
-    unique_values.push(emissions_total);
-    parent_totals["parenttotals"].push({
-      parentname: `${unique_parents[j]}`,
-      co2total: unique_values[j],
-    });
-
-    j = j + 1;
-  });
-
-  // console.log(unique_values);
-  // console.log(unique_parents);
-  // console.log(all_parent_CO2_vals);
-  return parent_totals;
-}
 
 function buildStaticBarCounties() {}
 
@@ -226,5 +167,103 @@ function buildAirAnalysis() {
 }
 
 console.log("app.js is accessed.");
-buildGHGAnalysis();
-buildAirAnalysis();
+// buildGHGAnalysis();
+// buildAirAnalysis();
+// countyTotals();
+
+/////////////Build Choropleth - Megan///////////
+function buildChoropleth () {
+
+  anychart.onDocumentReady(function () {
+    
+      // load json data
+      anychart.data.loadJsonFile("/api/GHGdata", function (data) {
+    
+        // Variables
+        // go into the records section of the data
+        var geoData = data.records
+        console.log(geoData)
+        // sum of all cases per country
+        var sumCases = 0;
+    
+        // convert cases to numbers
+        var numC;
+    
+        // create a new array with the resulting data
+        var data = [];
+    
+        // Go through the initial data
+        for (var i = 0; i < geoData.length; i++) {
+          // convert strings to numbers and save them to new variables
+          numC = parseInt(geoData[i].cases);
+    
+          // check if we are in the same country by comparing the geoId
+          // if the country is the same, add cases to the appropriate variables
+          if ((geoData[i + 1]) != null && (geoData[i].geoId == geoData[i + 1].geoId)) {
+            sumCases = sumCases + numC;
+          }
+          else {
+    
+            // add last day cases of the same country
+            sumCases = sumCases + numC;
+    
+            // insert the resulting data in the array using the AnyChart keywords 
+            data.push({ id: geoData[i].geoId, value: sumCases, title: geoData[i].countriesAndTerritories })
+    
+            // reset the variables to start over
+            sumCases = 0;
+    
+          }
+        };
+    
+        // connect the data with the map
+        var chart = anychart.map(data);
+        chart.geoData(anychart.maps.world);
+    
+        // specify the chart type and set the series 
+        var series = chart.choropleth(data);
+    
+        // set the chart title
+        chart.title("COVID-19 Global Cases");
+    
+        // color scale ranges
+        ocs = anychart.scales.ordinalColor([
+          { less: 99 },
+          { from: 100, to: 999 },
+          { from: 1000, to: 9999 },
+          { from: 10000, to: 29999 },
+          { from: 30000, to: 39000 },
+          { from: 40000, to: 59000 },
+          { from: 60000, to: 99999 },
+          { greater: 100000 }
+        ]);
+    
+        // set scale colors
+        ocs.colors(["rgb(252,245,245)", "rgb(241,219,216)", "rgb(229,190,185)", "rgb(211,152,145)", "rgb(192,117,109)", "rgb(178,93,86)", "rgb(152,50,48)", "rgb(150,33,31)"]);
+    
+        // tell the series what to use as a colorRange (colorScale)
+        series.colorScale(ocs);
+        
+        // enable the legend
+        chart.legend(true);
+    
+        // set the source mode of the legend and add styles
+        chart.legend()
+          .itemsSourceMode("categories") 
+          .position('right')
+          .align('top')
+          .itemsLayout('vertical')
+          .padding(50, 0, 0, 20)
+          .paginator(false);
+    
+        // set the container id
+        chart.container('container');
+    
+        // draw the chart
+        chart.draw();
+      });
+    
+    });
+  }
+buildChoropleth()
+
