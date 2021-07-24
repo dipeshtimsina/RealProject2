@@ -71,4 +71,7 @@ def home():
 @app.route("/api/data")
 def data():
     return get_all_data, get_all_air
+
+if __name__ == "__main__":
+    app.run(debug=True)
     
