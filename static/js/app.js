@@ -204,21 +204,60 @@ function buildGHGAnalysis() {
 function buildAirAnalysis() {
   /* data route */
   const url = "/api/AIRdata";
-  d3.json(url)
-    .then(function (airdata) {
-      console.log(airdata);
+    d3.json(url).then(function (data) {
+    console.log(data);
 
-      // data_2019 = countydata[2019][0];
-      // data_2018 = countydata[2018][0];
-      // data_2017 = countydata[2017][0];
-      // data_2016 = countydata[2016][0];
-      // data_2015 = countydata[2015][0];
-      // data_2014 = countydata[2014][0];
-      // data_2013 = countydata[2013][0];
-      // data_2012 = countydata[2012][0];
-      // data_2011 = countydata[2011][0];
-      // data_2010 = countydata[2010][0];
-      // countyTotals(data_2018);
+      var countiesAll = [];
+      var NAAQSAll = [];
+
+    Object.entries(data).forEach(([key, object]) => {
+      countiesAll.push(object["county"]);
+      NAAQSAll.push(object["NAAQS"]);
+    });
+  
+    //console.log(NAAQSAll);
+
+    var testdict = countiesAll.map((county,i) => ({county, NAAQS: NAAQSAll[i] }));
+    console.log(testdict);
+
+    var countyair = [];
+    testdict.reduce(function(res, value) {
+      if (!res[value.county]) {
+        res[value.county] = { county: value.county, NAAQS: 0 };
+        countyair.push(res[value.county])
+      }
+      res[value.county].NAAQS += value.NAAQS;
+      return res;
+    }, {});
+    
+    console.log(countyair);
+
+    var airsort = countyair.sort((a,b) => (a.NAAQS > b.NAAQS) ? -1 : 1);
+    //console.log(airsort);
+
+    var countiesUnique = [];
+    var NAAQSSum = [];
+
+    Object.entries(airsort).forEach(([key, object]) => {
+      countiesUnique.push(object["county"]);
+      NAAQSSum.push(object["NAAQS"]);
+
+    var trace1 = {
+      x: countiesUnique,
+      y: NAAQSSum,
+      type: "bar"
+    };
+
+    var data = [trace1];
+
+    var layout = {
+      title: "Air Quality by County, 2009-2018",
+      xaxis: { title: "County"},
+      yaxis: { title: "Days over NAAQS"}
+    };
+
+    Plotly.newPlot("bar", data, layout);
+    });
     })
     .catch((e) => {
       console.log(e);
