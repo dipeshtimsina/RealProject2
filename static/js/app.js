@@ -48,23 +48,25 @@ function countyTotals(data_year) {
   
   function buildCountyAnalysis() {
     /* data route */
-    const url = "datasets/clean_facilities.json";
-    // d3.json(url).then(function (countydata) {
-    //   console.log(countydata);
+    const url = "/api/data";
+    d3.json(url).then(function (countydata) {
+
+      console.log(countydata);
   
-    //   // data_2019 = countydata[2019][0];
-    //   // data_2018 = countydata[2018][0];
-    //   // data_2017 = countydata[2017][0];
-    //   // data_2016 = countydata[2016][0];
-    //   // data_2015 = countydata[2015][0];
-    //   // data_2014 = countydata[2014][0];
-    //   // data_2013 = countydata[2013][0];
-    //   // data_2012 = countydata[2012][0];
-    //   // data_2011 = countydata[2011][0];
-    //   // data_2010 = countydata[2010][0];
-    //   // countyTotals(data_2018);
-    // });
+      // data_2019 = countydata[2019][0];
+      // data_2018 = countydata[2018][0];
+      // data_2017 = countydata[2017][0];
+      // data_2016 = countydata[2016][0];
+      // data_2015 = countydata[2015][0];
+      // data_2014 = countydata[2014][0];
+      // data_2013 = countydata[2013][0];
+      // data_2012 = countydata[2012][0];
+      // data_2011 = countydata[2011][0];
+      // data_2010 = countydata[2010][0];
+      // countyTotals(data_2018);
+
+    });
   }
-  console.log(url);
+  console.log("app.js is accessed.");
   buildCountyAnalysis();
   
