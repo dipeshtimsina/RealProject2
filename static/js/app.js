@@ -1,5 +1,5 @@
 function countyTotals(data_year) {
-  county_totals = { Totals: [] };
+  county_totals = { countytotals: [] };
   all_county_names = [];
   all_county_CO2_vals = [];
   unique_counties = [];
@@ -23,18 +23,38 @@ function countyTotals(data_year) {
   });
 
   unique_counties.sort();
-  console.log(unique_counties);
+  // console.log(all_county_names);
+  // console.log(all_county_CO2_vals);
 
+  j = 0;
   unique_counties.forEach((county) => {
+    // console.log(`Iteration for ${county}`);
+    i = 0;
+    emissions_total = 0;
+
     all_county_names.forEach((currentname) => {
+      // console.log(`Current name is: ${currentname}`);
       if (currentname === county) {
-        i = all_county_names.findIndex(currentname === county);
+        i = all_county_names.indexOf(county, i);
+        // console.log(`Name match at ${county} and ${currentname}`);
+        // console.log(`Index of current ${currentname} is ${i}`);
         emissions_total = emissions_total + all_county_CO2_vals[i];
-        unique_values.push(emissions_total);
+        i = i + 1;
       }
     });
+
+    unique_values.push(emissions_total);
+    county_totals["countytotals"].push({
+      countyname: `${unique_counties[j]}`,
+      co2total: unique_values[j],
+    });
+
+    j = j + 1;
   });
 
+  // console.log(unique_values);
+  // console.log(unique_counties);
+  // console.log(all_county_CO2_vals);
   return county_totals;
 }
 
@@ -52,7 +72,7 @@ function buildGHGAnalysis() {
   const url = "/api/GHGdata";
   d3.json(url)
     .then(function (ghgcountydata) {
-      console.log(ghgcountydata);
+      // console.log(ghgcountydata);
 
       data_2019 = [];
       data_2018 = [];
@@ -108,6 +128,14 @@ function buildGHGAnalysis() {
             break;
         }
       });
+
+      console.log(data_2019);
+      yearly_county_totals = countyTotals(data_2019);
+      yearly_parent_totals = parentTotals(data_2019)
+      
+      console.log(yearly_county_totals);
+      console.log(yearly_parent_totals);
+
     })
     .catch((e) => {
       console.log(e);
