@@ -135,7 +135,7 @@ function buildAirAnalysis() {
         yaxis: { title: "Days over NAAQS" },
       };
 
-      Plotly.newPlot("bar", data, layout);
+      Plotly.newPlot("top15air", data, layout);
 
       // var unique_counties = [...new Set(all_counties)];
       // console.log(unique_counties);
@@ -145,7 +145,69 @@ function buildAirAnalysis() {
     });
 }
   
-  
+function buildAirTimeline () {
+  const url = "/api/AIRdata";
+  d3.json(url)
+    .then(function (data) {
+    
+    var yearsAll = [];
+    var NAAQSAll = [];
+
+    Object.entries(data).forEach(([key, object]) => {
+      yearsAll.push(object["year"]);
+      NAAQSAll.push(object["NAAQS"]);
+    });
+    
+    var testdict = yearsAll.map((year, i) => ({
+      year,
+      NAAQS: Number(NAAQSAll[i]),
+    }));
+    
+    var yearair = [];
+    
+    testdict.reduce(function (res, value) {
+      if (!res[value.year]) {
+        res[value.year] = { year: value.year, NAAQS: 0 };
+        yearair.push(res[value.year]);
+      }
+      res[value.year].NAAQS += value.NAAQS;
+      return res;
+    }, {});
+
+    //console.log(yearair);
+    
+    var yearsort = yearair.sort((a, b) => (a.year > b.year ? 1 : -1));
+
+    //console.log(yearsort);
+
+    var yearsList = [];
+    var NAAQSSum = [];
+
+    Object.entries(yearsort).forEach(([key, object]) => {
+      yearsList.push(object["year"]);
+      NAAQSSum.push(object["NAAQS"]);
+    });
+
+    var trace1 = {
+      x: yearsList,
+      y: NAAQSSum,
+      type: "line",
+    };
+
+    var data = [trace1];
+
+    var layout = {
+      title: "PA Air Quality, 2009-2018",
+      xaxis: { title: "Year" },
+      yaxis: { title: "Days over NAAQS" },
+    };
+
+    Plotly.newPlot("paair", data, layout);
+
+    }
+    )};
+    
 console.log("app.js is accessed.");
 buildGHGAnalysis();
+buildAirTimeline();
 buildAirAnalysis();
