@@ -21,6 +21,7 @@ function sortBy(prop) {
 } 
 
 function countyTotals(data_year) {
+
   county_totals = {"countytotals":[]};
   all_county_names = [];
   all_county_CO2_vals = [];
@@ -52,21 +53,16 @@ function countyTotals(data_year) {
   //Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/indexOf
   unique_counties.sort();
   j = 0;
+  
   unique_counties.forEach((county) => {
-    // console.log(`Iteration for ${county}`);
-    i = 0;
-    emissions_total = 0;
-
     all_county_names.forEach((currentname) => {
-      // console.log(`Current name is: ${currentname}`);
       if (currentname === county) {
-        i = all_county_names.indexOf(county, i);
-        // console.log(`Name match at ${county} and ${currentname}`);
-        // console.log(`Index of current ${currentname} is ${i}`);
+        i = all_county_names.findIndex(currentname === county);
         emissions_total = emissions_total + all_county_CO2_vals[i];
-        i = i + 1;
+        unique_values.push(emissions_total);
       }
     });
+
 
     // Reference: https://www.jsdiaries.com/how-to-add-an-array-element-to-json-object-in-javascript/
     unique_values.push(emissions_total);
@@ -153,7 +149,6 @@ function parentTotals(data_year) {
   parent_totals["parenttotals"] = parent_totals["parenttotals"].sort(sortBy("co2total"));
   return parent_totals;
 }
-
 
 
 function buildStaticBarCounties(county_totals) {
@@ -282,6 +277,7 @@ function buildGHGAnalysis() {
   const url = "/api/GHGdata";
   d3.json(url)
     .then(function (ghgcountydata) {
+
       // console.log(ghgcountydata);
 
       data_2019 = [];
@@ -448,8 +444,146 @@ function buildAirAnalysis() {
     });
 }
 
+function buildAirAnalysis() {
+  /* data route */
+  const url = "/api/AIRdata";
+  d3.json(url)
+    .then(function (data) {
+      //console.log(data);
+
+      var countiesAll = [];
+      var NAAQSAll = [];
+
+      Object.entries(data).forEach(([key, object]) => {
+        countiesAll.push(object["county"]);
+        NAAQSAll.push(object["NAAQS"]);
+      });
+
+      //console.log(NAAQSAll);
+
+      var testdict = countiesAll.map((county, i) => ({
+        county,
+        NAAQS: Number(NAAQSAll[i]),
+      }));
+
+      var countyair = [];
+
+      //https://www.codegrepper.com/code-examples/javascript/javascript+group+by+sum+array+reduce
+      testdict.reduce(function (res, value) {
+        if (!res[value.county]) {
+          res[value.county] = { county: value.county, NAAQS: 0 };
+          countyair.push(res[value.county]);
+        }
+        res[value.county].NAAQS += value.NAAQS;
+        return res;
+      }, {});
+
+      
+      var airsort = countyair.sort((a, b) => (a.NAAQS > b.NAAQS ? -1 : 1));
+      //console.log(airsort);
+
+
+      //countyair.map(({ NAAQS }) => NAAQS).sort().reverse()
+      var countiesUnique = [];
+      var NAAQSSum = [];
+
+      Object.entries(airsort).forEach(([key, object]) => {
+        countiesUnique.push(object["county"]);
+        NAAQSSum.push(object["NAAQS"]);
+      });
+
+      var countyX = countiesUnique.reverse().slice(23).reverse();
+      var countyY = NAAQSSum.reverse().slice(23).reverse();
+
+      var trace1 = {
+        x: countyX,
+        y: countyY,
+        type: "bar",
+      };
+
+      var data = [trace1];
+
+      var layout = {
+        title: "Air Quality by County, 2009-2018",
+        xaxis: { title: "County" },
+        yaxis: { title: "Days over NAAQS" },
+      };
+
+      Plotly.newPlot("top15air", data, layout);
+
+      // var unique_counties = [...new Set(all_counties)];
+      // console.log(unique_counties);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+}
+  
+function buildAirTimeline () {
+  const url = "/api/AIRdata";
+  d3.json(url)
+    .then(function (data) {
+    
+    var yearsAll = [];
+    var NAAQSAll = [];
+
+    Object.entries(data).forEach(([key, object]) => {
+      yearsAll.push(object["year"]);
+      NAAQSAll.push(object["NAAQS"]);
+    });
+    
+    var testdict = yearsAll.map((year, i) => ({
+      year,
+      NAAQS: Number(NAAQSAll[i]),
+    }));
+    
+    var yearair = [];
+    
+    testdict.reduce(function (res, value) {
+      if (!res[value.year]) {
+        res[value.year] = { year: value.year, NAAQS: 0 };
+        yearair.push(res[value.year]);
+      }
+      res[value.year].NAAQS += value.NAAQS;
+      return res;
+    }, {});
+
+    //console.log(yearair);
+    
+    var yearsort = yearair.sort((a, b) => (a.year > b.year ? 1 : -1));
+
+    //console.log(yearsort);
+
+    var yearsList = [];
+    var NAAQSSum = [];
+
+    Object.entries(yearsort).forEach(([key, object]) => {
+      yearsList.push(object["year"]);
+      NAAQSSum.push(object["NAAQS"]);
+    });
+
+    var trace1 = {
+      x: yearsList,
+      y: NAAQSSum,
+      type: "line",
+    };
+
+    var data = [trace1];
+
+    var layout = {
+      title: "PA Air Quality, 2009-2018",
+      xaxis: { title: "Year" },
+      yaxis: { title: "Days over NAAQS" },
+    };
+
+    Plotly.newPlot("paair", data, layout);
+
+    }
+    )};
+    
 console.log("app.js is accessed.");
 buildGHGAnalysis();
+buildAirTimeline();
 buildAirAnalysis();
 
 /////Megan Scatter/Bubble Chart Air GHG//////
