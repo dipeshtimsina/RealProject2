@@ -34,14 +34,13 @@
       /* For Air Quality Nav Tab: Has 2 sections */
       #aqtimeline {padding-top:10px;height:50px;color: #fff; background-color: rgba(5, 9, 48, 0.534);}
       #aqwrost10 {padding-top:10px;height:50px;color: #fff; background-color: rgba(5, 9, 48, 0.534);}
-      /* For GHG Nav Tab: Has 2 sections */
-      #ghgpa {padding-top:10px;height:50px;color: #fff; background-color: rgba(8, 34, 56, 0.473);}
-      #ghgfacility {padding-top:10px;height:50px;color: #fff; background-color: rgba(8, 34, 56, 0.473);}
       /* For Emissions has 4 sections */
       #emstimeline{padding-top:10px;height:50px;color: #fff; background-color: #ff9800;}
       #emstop10{padding-top:10px;height:50px;color: #fff; background-color: #ff9800;}
       #emstop2{padding-top:10px;height:50px;color: #fff; background-color: #ff9800;}
       #emstopfacility{padding-top:10px;height:50px;color: #fff; background-color: #ff9800;}
+      /* For GHG Nav Tab: Has 1 sections */
+      #ghgpa {padding-top:10px;height:50px;color: #fff; background-color: rgba(8, 34, 56, 0.473);}
       /* For Consequence Nav tab has 2 sections */
       #conshealth {padding-top:10px;height:50px;color: #fff; background-color: #00bcd4;}
       #consgov {padding-top:10px;height:50px;color: #fff; background-color: #00bcd4;}
@@ -58,6 +57,7 @@
 <body data-spy="scroll" data-target=".navbar" data-offset="50">
 
   <!-- This section is the navigation bar and will be a scroll highlight type instead of creating new pages -->
+<!-- Home PAA page -->
 
     <nav class="navbar navbar-inverse nav-bar-fixed navbar-expand-lg navbar-light bg-light" data-spy="affix" data-offset-top="197">
       <a class="navbar-brand" href="#">PAA</a>
@@ -73,7 +73,7 @@
         <span class="navbar-toggler-icon"></span>
         </button>
         <!--**************************************************************************************************************************************************************************************-->
-
+<!-- Air Quality Tabs -->
       <div class="collapse navbar-collapse" id="ourNavbar">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item dropdown">
@@ -93,25 +93,7 @@
               <a class="dropdown-item" href="#aqworst10">Worst: Top 16 Counties</a>
           </li>
           <!--**************************************************************************************************************************************************************************************-->
-
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              id="ourNavbar"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              GHG Emission Maps
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#ghgpa">PA: Air Quality</a>
-              <a class="dropdown-item" href="#ghgfacility">PA: Facilites</a>
-          </li>
-          <!--**************************************************************************************************************************************************************************************-->
-
+<!-- Emissions Tabs -->
           <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
@@ -129,9 +111,28 @@
               <a class="dropdown-item" href="#emstop10">Top 10: Counties</a>
               <a class="dropdown-item" href="#emstop2">Top Counities: Deeper Dive</a>
               <a class="dropdown-item" href="#emstopfacility">Top 5: Facilities</a>
-
           </li>
+
           <!--**************************************************************************************************************************************************************************************-->
+<!-- GHG Emission Tab-->
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="ourNavbar"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              GHG Emission 
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#ghgpa">PA: GHG vs. Air Quality by County</a>
+          </li>
+
+          <!--**************************************************************************************************************************************************************************************-->
+<!-- Consequences Tabs -->
 
           <li class="nav-item dropdown">
             <a
@@ -149,8 +150,9 @@
               <a class="dropdown-item" href="#conshealth">Health Impacts </a>
               <a class="dropdown-item" href="#consgov">Governmental Policies</a>
           </li>
-          <!--**************************************************************************************************************************************************************************************-->
 
+          <!--**************************************************************************************************************************************************************************************-->
+<!-- About the Site Tabs -->
           <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
@@ -222,25 +224,6 @@
 <!--**************************************************************************************************************************************************************************************-->
 <!--**************************************************************************************************************************************************************************************-->
 
-<!-- GHG Section -->
-
-<div id="ourNavbar" class="container-fluid"></div>
-  <div class = "text-center">
-    <h2 id="ghgpa" >GHG Map of PA</h2>
-    <p>.......</p>
-  </div>
-
-<!--**************************************************************************************************************************************************************************************-->
-
-<div id="ourNavbar" class="container-fluid"></div>
-  <div class = "text-center">
-    <h2 id="ghgfacility" >GHG Map of the Facilities</h2>
-    <p>.......</p>
-  </div>
-
-<!--**************************************************************************************************************************************************************************************-->
-<!--**************************************************************************************************************************************************************************************-->
-
 <!-- Emissions Section -->
 
 
@@ -273,6 +256,26 @@
     <h2 id="emstopfacility" > Top Facilites with the Largest Carbon Emission</h2>
     <p>.......</p>
   </div>
+
+<!--**************************************************************************************************************************************************************************************-->
+<!--**************************************************************************************************************************************************************************************-->
+
+<!-- GHG Section -->
+
+<div id="ourNavbar" class="container-fluid"></div>
+  <div class = "text-center">
+    <h2 id="ghgpa" >GHG vs. Air Polution By County</h2>
+    <p>This is Megan's Bubble Chart we can introduce it here</p>
+    <div id='bubble'
+  </div>
+
+<!--**************************************************************************************************************************************************************************************-->
+<!-- 
+<div id="ourNavbar" class="container-fluid"></div>
+  <div class = "text-center">
+    <h2 id="ghgfacility" >GHG Map of the Facilities</h2>
+    <p>.......</p>
+  </div> -->
 
 <!--**************************************************************************************************************************************************************************************-->
 <!--**************************************************************************************************************************************************************************************-->
@@ -322,6 +325,7 @@
 <!--**************************************************************************************************************************************************************************************-->
 <!--**************************************************************************************************************************************************************************************-->
     <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://d3js.org/d3.v6.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="{{url_for('static', filename='js/app.js')}}"></script>
     <script
