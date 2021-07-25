@@ -118,13 +118,13 @@ function parentTotals(data_year) {
   return parent_totals;
 }
 
-function buildStaticBarCounties() {}
+function buildStaticBarCounties() { }
 
-function buildStaticBarParents() {}
+function buildStaticBarParents() { }
 
-function buildStaticPie() {}
+function buildStaticPie() { }
 
-function buildCountySummary() {}
+function buildCountySummary() { }
 
 function buildGHGAnalysis() {
   /* data route */
@@ -191,7 +191,7 @@ function buildGHGAnalysis() {
       console.log(data_2019);
       yearly_county_totals = countyTotals(data_2019);
       yearly_parent_totals = parentTotals(data_2019)
-      
+
       console.log(yearly_county_totals);
       console.log(yearly_parent_totals);
 
@@ -204,24 +204,24 @@ function buildGHGAnalysis() {
 function buildAirAnalysis() {
   /* data route */
   const url = "/api/AIRdata";
-    d3.json(url).then(function (data) {
+  d3.json(url).then(function (data) {
     console.log(data);
 
-      var countiesAll = [];
-      var NAAQSAll = [];
+    var countiesAll = [];
+    var NAAQSAll = [];
 
     Object.entries(data).forEach(([key, object]) => {
       countiesAll.push(object["county"]);
       NAAQSAll.push(object["NAAQS"]);
     });
-  
+
     //console.log(NAAQSAll);
 
-    var testdict = countiesAll.map((county,i) => ({county, NAAQS: NAAQSAll[i] }));
+    var testdict = countiesAll.map((county, i) => ({ county, NAAQS: NAAQSAll[i] }));
     console.log(testdict);
 
     var countyair = [];
-    testdict.reduce(function(res, value) {
+    testdict.reduce(function (res, value) {
       if (!res[value.county]) {
         res[value.county] = { county: value.county, NAAQS: 0 };
         countyair.push(res[value.county])
@@ -229,10 +229,10 @@ function buildAirAnalysis() {
       res[value.county].NAAQS += value.NAAQS;
       return res;
     }, {});
-    
+
     console.log(countyair);
 
-    var airsort = countyair.sort((a,b) => (a.NAAQS > b.NAAQS) ? -1 : 1);
+    var airsort = countyair.sort((a, b) => (a.NAAQS > b.NAAQS) ? -1 : 1);
     //console.log(airsort);
 
     var countiesUnique = [];
@@ -242,23 +242,23 @@ function buildAirAnalysis() {
       countiesUnique.push(object["county"]);
       NAAQSSum.push(object["NAAQS"]);
 
-    var trace1 = {
-      x: countiesUnique,
-      y: NAAQSSum,
-      type: "bar"
-    };
+      var trace1 = {
+        x: countiesUnique,
+        y: NAAQSSum,
+        type: "bar"
+      };
 
-    var data = [trace1];
+      var data = [trace1];
 
-    var layout = {
-      title: "Air Quality by County, 2009-2018",
-      xaxis: { title: "County"},
-      yaxis: { title: "Days over NAAQS"}
-    };
+      var layout = {
+        title: "Air Quality by County, 2009-2018",
+        xaxis: { title: "County" },
+        yaxis: { title: "Days over NAAQS" }
+      };
 
-    Plotly.newPlot("bar", data, layout);
+      Plotly.newPlot("bar", data, layout);
     });
-    })
+  })
     .catch((e) => {
       console.log(e);
     });
@@ -268,98 +268,115 @@ console.log("app.js is accessed.");
 buildGHGAnalysis();
 buildAirAnalysis();
 
-/////////////Build Choropleth - Megan///////////
-function buildChoropleth () {
+/////Megan Scatter/Bubble Chart Air GHG//////
+///Reference: https://www.d3-graph-gallery.com/graph/bubble_tooltip.html///
 
-  anychart.onDocumentReady(function () {
-    
-      // load json data
-      anychart.data.loadJsonFile("/api/GHGdata", function (data) {
-    
-        // Variables
-        // go into the records section of the data
-        var geoData = data.records
-        console.log(geoData)
-        // sum of all cases per country
-        var sumCases = 0;
-    
-        // convert cases to numbers
-        var numC;
-    
-        // create a new array with the resulting data
-        var data = [];
-    
-        // Go through the initial data
-        for (var i = 0; i < geoData.length; i++) {
-          // convert strings to numbers and save them to new variables
-          numC = parseInt(geoData[i].cases);
-    
-          // check if we are in the same country by comparing the geoId
-          // if the country is the same, add cases to the appropriate variables
-          if ((geoData[i + 1]) != null && (geoData[i].geoId == geoData[i + 1].geoId)) {
-            sumCases = sumCases + numC;
-          }
-          else {
-    
-            // add last day cases of the same country
-            sumCases = sumCases + numC;
-    
-            // insert the resulting data in the array using the AnyChart keywords 
-            data.push({ id: geoData[i].geoId, value: sumCases, title: geoData[i].countriesAndTerritories })
-    
-            // reset the variables to start over
-            sumCases = 0;
-    
-          }
-        };
-    
-        // connect the data with the map
-        var chart = anychart.map(data);
-        chart.geoData(anychart.maps.world);
-    
-        // specify the chart type and set the series 
-        var series = chart.choropleth(data);
-    
-        // set the chart title
-        chart.title("COVID-19 Global Cases");
-    
-        // color scale ranges
-        ocs = anychart.scales.ordinalColor([
-          { less: 99 },
-          { from: 100, to: 999 },
-          { from: 1000, to: 9999 },
-          { from: 10000, to: 29999 },
-          { from: 30000, to: 39000 },
-          { from: 40000, to: 59000 },
-          { from: 60000, to: 99999 },
-          { greater: 100000 }
-        ]);
-    
-        // set scale colors
-        ocs.colors(["rgb(252,245,245)", "rgb(241,219,216)", "rgb(229,190,185)", "rgb(211,152,145)", "rgb(192,117,109)", "rgb(178,93,86)", "rgb(152,50,48)", "rgb(150,33,31)"]);
-    
-        // tell the series what to use as a colorRange (colorScale)
-        series.colorScale(ocs);
-        
-        // enable the legend
-        chart.legend(true);
-    
-        // set the source mode of the legend and add styles
-        chart.legend()
-          .itemsSourceMode("categories") 
-          .position('right')
-          .align('top')
-          .itemsLayout('vertical')
-          .padding(50, 0, 0, 20)
-          .paginator(false);
-    
-        // set the container id
-        chart.container('container');
-    
-        // draw the chart
-        chart.draw();
-      });
-    
-    });
+// set the dimensions and margins of the graph
+const margin = {top: 10, right: 30, bottom: 30, left: 50},
+    width = 1000 - margin.left - margin.right,
+    height = 420 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+const svg = d3.select("#bubble")
+  .append("svg")
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+  .attr("transform", `translate(${margin.left},${margin.top})`);
+
+//Add x axis label
+svg.append("text")
+  .attr("class", "x label")
+  .attr("text-anchor", "end")
+  .attr("x", width -400)
+  .attr("y", height +30)
+  .text("2018 Total GHG Emissions (CO2e)");
+
+// Add y axis label
+svg.append("text")
+  .attr("class", "y label")
+  .attr("text-anchor", "end")
+  .attr("y", -40)
+  .attr("dy", ".75em")
+  .attr("transform", "rotate(-90)")
+  .text("Air Pollution: # of Days Over Standard (NAAQS)");
+
+//Read the data
+d3.csv("https://raw.githubusercontent.com/mspriest/bubblechart2018/main/2018_bubbledata.csv").then( function(data) {
+
+  // Add X axis
+  const x = d3.scaleLinear()
+    .domain([0, 19000000])
+    .range([ 0, width ]);
+  svg.append("g")
+    .attr("transform", `translate(0, ${height})`)
+    .call(d3.axisBottom(x));
+
+  // Add Y axis
+  const y = d3.scaleLinear()
+    .domain([0, 20])
+    .range([ height, 0]);
+  svg.append("g")
+    .call(d3.axisLeft(y));
+
+  // Add a scale for bubble size
+  const z = d3.scaleLinear()
+    .domain([20000, 16000000])
+    .range([10, 40]);
+
+  // Add a scale for bubble color
+  // const myColor = d3.scaleOrdinal()
+  //   .domain(["Asia", "Europe", "Americas", "Africa", "Oceania"])
+  //   .range(d3.schemeSet2);
+
+  // -1- Create a tooltip div that is hidden by default:
+  const tooltip = d3.select("#bubble")
+    .append("div")
+      .style("opacity", 0)
+      .attr("class", "tooltip")
+      .style("background-color", "purple")
+      .style("border-radius", "5px")
+      .style("padding", "10px")
+      .style("color", "white")
+
+  // -2- Create 3 functions to show / update (when mouse move but stay on same circle) / hide the tooltip
+  const showTooltip = function(event, d) {
+    tooltip
+      .transition()
+      .duration(200)
+    tooltip
+      .style("opacity", 1)
+      .html(`County: ${d.County}<br>Person Days: ${d.PersonDays}`)
+      .style("left", (event.x)/2 + "px")
+      .style("top", (event.y)/2+30 + "px")
   }
-buildChoropleth()
+  const moveTooltip = function(event, d) {
+    tooltip
+      .style("left", (event.x)/2 + "px")
+      .style("top", (event.y)/2+30 + "px")
+  }
+  const hideTooltip = function(event, d) {
+    tooltip
+      .transition()
+      .duration(200)
+      .style("opacity", 0)
+  }
+
+  // Add dots
+  svg.append('g')
+    .selectAll("dot")
+    .data(data)
+    .join("circle")
+      .attr("class", "bubbles")
+      .attr("cx", d => x(d.GHG_2018))
+      .attr("cy", d => y(d.NAAQS))
+      .attr("r", d => z(d.PersonDays))
+        // .style("fill", d => myColor(d.continent))
+  
+    // -3- Trigger the functions
+    .on("mouseover", showTooltip )
+    .on("mousemove", moveTooltip )
+    .on("mouseleave", hideTooltip )
+
+  })  
+

@@ -7,9 +7,14 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Bellybutton Biodiversity</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <!-- Our CSS -->
+  <link rel="stylesheet" type="text/css" href="static/css/style.css">
+
 </head>
 
 <body>
+
 
   <div class="container">
     <div class="row">
@@ -30,6 +35,7 @@
           </div>
           <div id="sample-metadata" class="panel-body"></div>
         </div>
+      <div id="map"></div>
       </div>
       <div class="col-md-5">
         <div id="bar"></div>
@@ -45,10 +51,19 @@
     </div>
   </div>
 
+  <!-- d3 JS -->
   <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://d3js.org/d3.v6.js"></script>
+  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+
+  <!-- Ploty JS -->
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+  <!-- Our JS Code -->
   <script src="{{url_for('static', filename='js/app.js')}}"></script>
-  
+
+
+
 </body>
 
 </html>
