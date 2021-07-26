@@ -1,1 +1,32 @@
-# projecttest
+# GHG (CO2) Emissions & Air Pollution in PA by County 2009-2019
+
+Group 1 Contributors: Anthony Hopkins, Andrew Kromer, Dipesh Timsina, Megan Spriesterbach
+
+Application deployed through Heroku: 
+
+#### Project Overview
+
+Building off of the first project, we decided to dive deeper into the carbon emissions and air pollution on the county level in Pennsylvania. We utilized two datasets: Air Pollution Data from EDDIE (https://www.phaim1.health.pa.gov/EDD/WebForms/AirQualityCnty.aspx) and Facility Data from the EPA (https://ghgdata.epa.gov/ghgp/main.do). 
+
+#### Project Requirements and Approach
+
+- Dataset with at least 100 records
+  - Facility Level data was exported in a multi-sheet CSV file, cleaned in Pandas (handled NaN values, cleaned up county names) and exported directly into a SQLite database
+  - Air Pollution data was cleaned utilizing Pandas and exported directly into a SQLite database
+- Python Flask-powered API, HTML/CSS, JavaScript, and a database
+  - Various app routes were created in a Python Flask-powered API to read in data from the SQLite database in order to access the data to render plots/charts
+  - Created functions to build plots/charts and rendered it to the index.html page
+  - Index.html built with HTML & CSS for styling
+- Visualize the data utilizing D3, Leaflet or Plotly (must have at least 3 views)
+  - Utilized Plotly for rendering of Air Pollution & CO2 Emissions graphs/charts & D3 for the bubble chart
+- A JS library not covered in Bootcamp
+  - Used Anychart for pie graph
+- User-driven interaction
+  - D3 includes tooltips when hovering over the bubbles
+
+#### Findings
+
+#### Limitations & Next Steps
+
+
+

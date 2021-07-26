@@ -845,7 +845,13 @@ d3.csv(
     .attr("cx", (d) => x(d.GHG_2018))
     .attr("cy", (d) => y(d.NAAQS))
     .attr("r", (d) => z(d.PersonDays))
-    // .style("fill", d => myColor(d.continent))
+    .style("fill", function (d) {
+      if (d.County === "armstrong") {
+          return "#FF0000"
+      } else if (d.County === "indiana") {
+          return "#FF0000"
+      } 
+    })
 
     // -3- Trigger the functions
     .on("mouseover", showTooltip)
