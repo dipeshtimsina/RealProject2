@@ -50,29 +50,32 @@ function countyTotals(data_year) {
   // console.log(all_county_names);
   // console.log(all_county_CO2_vals);
 
-  //Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/indexOf
-  unique_counties.sort();
-  j = 0;
-  
-  unique_counties.forEach((county) => {
-    all_county_names.forEach((currentname) => {
-      if (currentname === county) {
-        i = all_county_names.findIndex(currentname === county);
-        emissions_total = emissions_total + all_county_CO2_vals[i];
-        unique_values.push(emissions_total);
-      }
-    });
-
-
-    // Reference: https://www.jsdiaries.com/how-to-add-an-array-element-to-json-object-in-javascript/
-    unique_values.push(emissions_total);
-    county_totals["countytotals"].push({
-      "countyname": `${unique_counties[j]}`,
-      "co2total": unique_values[j],
-    });
-
-    j = j + 1;
+//Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/indexOf
+unique_counties.sort();
+j = 0;
+unique_counties.forEach((county) => {
+  // console.log(`Iteration for ${county}`);
+  i = 0;
+  emissions_total = 0;
+  all_county_names.forEach((currentname) => {
+    // console.log(`Current name is: ${currentname}`);
+    if (currentname === county) {
+      i = all_county_names.indexOf(county, i);
+      // console.log(`Name match at ${county} and ${currentname}`);
+      // console.log(`Index of current ${currentname} is ${i}`);
+      emissions_total = emissions_total + all_county_CO2_vals[i];
+      i = i + 1;
+    }
   });
+  // Reference: https://www.jsdiaries.com/how-to-add-an-array-element-to-json-object-in-javascript/
+  unique_values.push(emissions_total);
+  county_totals["countytotals"].push({
+    "countyname": `${unique_counties[j]}`,
+    "co2total": unique_values[j],
+  });
+  j = j + 1;
+});
+
 
   // console.log(unique_values);
   // console.log(unique_counties);
