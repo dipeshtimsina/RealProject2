@@ -494,11 +494,13 @@ function buildAirAnalysis() {
 
       var countyX = countiesUnique.reverse().slice(23).reverse();
       var countyY = NAAQSSum.reverse().slice(23).reverse();
+      var colors = ["blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "red", "blue"]
 
       var trace1 = {
         x: countyX,
         y: countyY,
         type: "bar",
+        marker: {color : colors}
       };
 
       var data = [trace1];
@@ -506,7 +508,7 @@ function buildAirAnalysis() {
       var layout = {
         title: "Air Quality by County, 2009-2018",
         xaxis: { title: "County" },
-        yaxis: { title: "Days over NAAQS" },
+        yaxis: { title: "Days over NAAQS" }
       };
 
       Plotly.newPlot("top15air", data, layout);
@@ -552,7 +554,7 @@ function buildAirTimeline () {
     
     var yearsort = yearair.sort((a, b) => (a.year > b.year ? 1 : -1));
 
-    //console.log(yearsort);
+    console.log(yearsort);
 
     var yearsList = [];
     var NAAQSSum = [];
@@ -561,6 +563,11 @@ function buildAirTimeline () {
       yearsList.push(object["year"]);
       NAAQSSum.push(object["NAAQS"]);
     });
+
+
+    //CHART.JS MUCKING
+    
+
 
     var trace1 = {
       x: yearsList,
@@ -699,6 +706,6 @@ d3.csv("https://raw.githubusercontent.com/mspriest/bubblechart2018/main/2018_bub
 
   })  
 
-=======
+
 // buildChoropleth();
 
