@@ -1,0 +1,10 @@
+.bubbles {
+    stroke-width: 2px;
+    stroke: white;
+    fill: rgb(197, 108, 197);
+    opacity: .6;
+  }
+  .bubbles:hover {
+    stroke: darkmagenta;
+  }
+  
