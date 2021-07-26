@@ -50,6 +50,15 @@
       #abtsite {padding-top:10px;height:50px;color: #fff; background-color: #009688;}
       #abtus {padding-top:10px;height:50px;color: #fff; background-color: #009688;}
 
+      #countypie1 {
+          width: 500px;
+          height: 500px;
+  
+            }
+      #countypie2 {
+          width: 500px;
+          height: 500px;
+      }
 
       </style>
   </head>
@@ -212,7 +221,8 @@
 <div id="ourNavbar" class="container-fluid" ></div>
   <div class = "text-center">
     <h2 id="aqtimeline">Air Quality Dynamic Timeline</h2>
-    <p>.......</p>
+    <p>....</p>
+    <div id="paair"></div>
   </div>
 </div>
 
@@ -221,7 +231,8 @@
 <div id="ourNavbar" class="container-fluid"></div>
   <div class = "text-center">
     <h2 id="aqwrost10">Top 10 County with the Worst Air Quality </h2>
-    <p>.......</p>
+    <p>....</p>
+    <div id="top15air"></div>
   </div>
 
 <!--**************************************************************************************************************************************************************************************-->
@@ -240,16 +251,22 @@
 
 <div id="ourNavbar" class="container-fluid"></div>
   <div class = "text-center">
-    <h2 id="emstop10" >Top 10 Counties with the Largest Carbon Emission</h2>
+    <h2 id="countybar" >Top 10 Counties with the Largest Carbon Emission</h2>
     <p>.......</p>
   </div>
 
 <!--**************************************************************************************************************************************************************************************-->
 
 <div id="ourNavbar" class="container-fluid"></div>
-  <div class = "text-center">
     <h2 id="emstop2" >Deeper Dive into the Top 2 Counties</h2>
-    <p>.......</p>
+    <div>
+      <div align="center">
+        <div id="countypie1"></div>
+      </div>
+      <div align="center">
+        <div id="countypie2"></div>
+      </div>
+    </div>
   </div>
 
 <!--**************************************************************************************************************************************************************************************-->
@@ -258,6 +275,7 @@
   <div class = "text-center">
     <h2 id="emstopfacility" > Top Facilites with the Largest Carbon Emission</h2>
     <p>.......</p>
+    <div id="parentbar"></div>
   </div>
 
 <!--**************************************************************************************************************************************************************************************-->
@@ -287,19 +305,19 @@
 <!-- Consequences Section -->
 
 
-<div id="ourNavbar" class="container-fluid"></div>
+<!-- <div id="ourNavbar" class="container-fluid"></div>
   <div class = "text-center">
     <h2 id="conshealth" > Health Concerns and Public Safety </h2>
     <p>.......</p>
-  </div>
+  </div> -->
 
 <!--**************************************************************************************************************************************************************************************-->
 
-<div id="ourNavbar" class="container-fluid"></div>
+<!-- <div id="ourNavbar" class="container-fluid"></div>
   <div class = "text-center">
     <h2 id="consgov"> Governmental Policies and Regulations </h2>
     <p>.......</p>
-  </div>
+  </div> -->
 
 
 <!--**************************************************************************************************************************************************************************************-->
@@ -317,12 +335,12 @@
 
 <!--**************************************************************************************************************************************************************************************-->
 
-<div id="ourNavbar" class="container-fluid"></div>
+<!-- <div id="ourNavbar" class="container-fluid"></div>
   <div class = "text-center">
     <h2 id="abtus" > Team Behind the Scene </h2>
     <p>.......</p>
   </div>
-
+ -->
 
 
 <!--**************************************************************************************************************************************************************************************-->
@@ -348,6 +366,7 @@
       integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-base.min.js"></script>
   </body>
 </html>
 
