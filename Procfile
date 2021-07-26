@@ -1,1 +1,1 @@
-  web: gunicorn REALPROJECT2.app:app
+ web: gunicorn project_info.app:app

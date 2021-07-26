@@ -15,7 +15,11 @@ app = Flask(__name__)
 #################################################
 # Database Connect
 #################################################
-DB = "superclean_facilities.db"
+
+from flask_sqlalchemy import SQLAlchemy
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', '') or "sqlite:///superclean_facilities.db"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+DB = SQLAlchemy(app)
 
 def get_all_data( json_str = False ):
     conn = sqlite3.connect( DB )
