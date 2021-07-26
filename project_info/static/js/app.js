@@ -276,7 +276,7 @@ function buildStaticBarCounties(county_totals) {
     y: y_values,
     orientation: "h",
     marker: {
-      color: "rgb(215,180,243)",
+      color: ["red", "red", "rgb(215,180,243)", "rgb(215,180,243)", "rgb(215,180,243)", "rgb(215,180,243)", "rgb(215,180,243)", "rgb(215,180,243)", "rgb(215,180,243)", "rgb(215,180,243)"]
     },
     type: "bar",
   };
@@ -331,7 +331,7 @@ function buildStaticBarParents(parent_totals) {
     x: y_values,
     y: x_values,
     marker: {
-      color: "palevioletred",
+      color: ["red","red","rgb(215,180,243)","rgb(215,180,243)","rgb(215,180,243)"]
     },
     type: "bar",
   };
@@ -652,11 +652,12 @@ function buildAirAnalysis() {
 
       var countyX = countiesUnique.reverse().slice(23).reverse();
       var countyY = NAAQSSum.reverse().slice(23).reverse();
-
+      var colors = ["blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "red", "blue"]
       var trace1 = {
         x: countyX,
         y: countyY,
         type: "bar",
+        marker: {color : colors}
       };
 
       var data = [trace1];
