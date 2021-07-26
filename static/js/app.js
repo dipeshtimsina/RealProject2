@@ -365,8 +365,8 @@ function buildGHGAnalysis() {
 
       // console.log(county_totals_2019);
       // console.log(parent_totals_2019);
-      buildStaticBarCounties(county_totals_2019);
-      buildStaticBarParents(parent_totals_2019);
+      // buildStaticBarCounties(county_totals_2019);
+      // buildStaticBarParents(parent_totals_2019);
 
 
 
@@ -440,7 +440,7 @@ function buildAirAnalysis() {
         yaxis: { title: "Days over NAAQS" }
       };
 
-      Plotly.newPlot("bar", data, layout);
+      // Plotly.newPlot("bar", data, layout);
     });
   })
     .catch((e) => {
@@ -487,7 +487,7 @@ svg.append("text")
 
 //Read the data
 d3.csv("https://raw.githubusercontent.com/mspriest/bubblechart2018/main/2018_bubbledata.csv").then( function(data) {
-
+console.log(data)
   // Add X axis
   const x = d3.scaleLinear()
     .domain([0, 19000000])
@@ -531,14 +531,18 @@ d3.csv("https://raw.githubusercontent.com/mspriest/bubblechart2018/main/2018_bub
     tooltip
       .style("opacity", 1)
       .html(`County: ${d.County}<br>Person Days: ${d.PersonDays}`)
-      .style("left", (event.x)/2 + "px")
-      .style("top", (event.y)/2+30 + "px")
+      // .style("left", (event.x)/2 + "px")
+      // .style("top", (event.y)/2+30 + "px")
+      .style("left", d + "px")     
+      .style("top", d + "px");
   }
 
   const moveTooltip = function(event, d) {
     tooltip
-      .style("left", (event.x)/2 + "px")
-      .style("top", (event.y)/2+30 + "px")
+      // .style("left", (event.x)/2 + "px")
+      // .style("top", (event.y)/2+30 + "px")
+      .style("left", d + "px")     
+      .style("top", d + "px");
   }
   const hideTooltip = function(event, d) {
     tooltip
@@ -563,8 +567,4 @@ d3.csv("https://raw.githubusercontent.com/mspriest/bubblechart2018/main/2018_bub
     .on("mousemove", moveTooltip )
     .on("mouseleave", hideTooltip )
 
-  })  
-
-=======
-// buildChoropleth();
-
+  })
