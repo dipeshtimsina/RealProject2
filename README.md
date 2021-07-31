@@ -26,6 +26,11 @@ Building off of the first project, we decided to dive deeper into the carbon emi
 
 #### Findings
 
+- Based on air quality standards set by the NAAQS, 2010 was the worst year for air quality, and since 2014 has trended around 200 days over the standard.
+- From 2009-2018, counties with the worst air quality are Philadelphia and Allegheny; Indiana county was #14
+- Indiana and Armstrong had the largest overall carbon emissions in 2019, nearly 20M and 12M respectively.
+- 
+
 #### Limitations & Next Steps
 
 
