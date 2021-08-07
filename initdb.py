@@ -1,3 +1,3 @@
-from project_info.app import DB
+from project_info.app import db
 
-DB.create_all()
+db.create_all()
