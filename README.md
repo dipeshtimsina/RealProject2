@@ -29,9 +29,16 @@ Building off of the first project, we decided to dive deeper into the carbon emi
 - Based on air quality standards set by the NAAQS, 2010 was the worst year for air quality, and since 2014 has trended around 200 days over the standard.
 - From 2009-2018, counties with the worst air quality are Philadelphia and Allegheny; Indiana county was #14
 - Indiana and Armstrong had the largest overall carbon emissions in 2019, nearly 20M and 12M respectively.
-- 
+- Arclight Capital LLC (an energy conglomerate) accounted for nearly 53.4% of all CO2 emissions in Indiana County & 95.8% of all emissions in Armstrong County
+- No direct correlation between a county's carbon emissions and air quality.
 
-#### Limitations & Next Steps
+#### Limitations
 
+- Out of 67 counties in PA, 13 counties reported zero (0) and 27 counties reporting no data at all in terms of air pollution in 2018 dataset from EDDIE
+- Total population size of county affects overall-person days; for example, if two counties have the same number of days above NAAQS but one of the counties has a much larger population, that county will have more person-days above NAAQS because: Number of days above NAAQS x number of people = number of person-days above NAAQS. This can explain why there is seemingly no correlation between GHG and air pollution in regards to Indiana and Armstrong county because of their small population size.
 
+#### Next Steps
 
+- Successfully deploy application to Heroku
+- Integrate a machine learning aspect into Project 3
+- Explore ways to make this data "actionable" - we know carbon emissions have an overall negative impact, but what can be done?
