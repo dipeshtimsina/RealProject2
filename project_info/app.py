@@ -7,11 +7,13 @@ from flask import (
     request,
     redirect)
 
+from sqlalchemy import text
 ###################################################
 # Flask Setup
 #################################################
 app = Flask(__name__)
 
+DB = "superclean_facilities.db"
 #################################################
 # Database Connect
 #################################################
@@ -20,16 +22,12 @@ from flask_sqlalchemy import SQLAlchemy
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', '') or "sqlite:///superclean_facilities.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+# This variable will be used for all SQLAlchemy commands
+
 db = SQLAlchemy(app)
 
-DB = "superclean_facilities.db"
-
 def get_all_data( json_str = False ):
-    conn = sqlite3.connect( DB )
-    conn.row_factory = sqlite3.Row # This enables column access by name: row['column_name'] 
-    db = conn.cursor()
-    print("start pulling data")
-    rows = db.execute('''
+    ghg_query = db.session.execute(text("""
     SELECT * from facility_leveldf_2010 
     UNION ALL
     SELECT * from facility_leveldf_2011 
@@ -48,26 +46,13 @@ def get_all_data( json_str = False ):
     UNION ALL
     SELECT * from facility_leveldf_2018
     UNION ALL
-    SELECT * from facility_leveldf_2019 
-     ''').fetchall()
-    print("done pulling data")
-    conn.commit()
-    conn.close()
-    all_data_json = json.dumps([dict(ix) for ix in rows])
+    SELECT * from facility_leveldf_2019"""))
+    all_data_json = json.dumps([dict(ix) for ix in ghg_query])
     return all_data_json
 
 def get_all_air( json_str = False ):
-    conn = sqlite3.connect( DB )
-    conn.row_factory = sqlite3.Row # This enables column access by name: row['column_name'] 
-    db = conn.cursor()
-    print("start pulling data")
-    rows = db.execute('''
-    SELECT * from airquality
-     ''').fetchall()
-    print("done pulling data")
-    conn.commit()
-    conn.close()
-    all_air_json = json.dumps([dict(ix) for ix in rows])
+    air_query = db.session.execute(text("""SELECT * from airquality"""))
+    all_air_json = json.dumps([dict(ix) for ix in air_query])
     return all_air_json
 
 # create route that renders index.html template
