@@ -2,7 +2,7 @@
 
 Group 1 Contributors: Anthony Hopkins, Andrew Kromer, Dipesh Timsina, Megan Spriesterbach
 
-Application deployed through Heroku: 
+***Application deployed through Heroku: https://ghg-pa.herokuapp.com/***
 
 #### Project Overview
 
